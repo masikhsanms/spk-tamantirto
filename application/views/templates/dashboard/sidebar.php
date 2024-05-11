@@ -34,40 +34,14 @@
                         </a>
                         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                              <div class="bg-white py-2 collapse-inner rounded">
-                                  <h6 class="collapse-header">Custom Utilities:</h6>
-                                  <a class="collapse-item" href="utilities-color.html">Colors</a>
-                                  <a class="collapse-item" href="utilities-border.html">Borders</a>
-                                  <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                                  <a class="collapse-item" href="utilities-other.html">Other</a>
+                                  <h6 class="collapse-header">Data Master:</h6>
+                                  <a class="collapse-item" href="#">Padukuhan</a>
+                                  <a class="collapse-item" href="#">Kategori</a>
+                                  <a class="collapse-item" href="#">Indikator</a>
+                                  <a class="collapse-item" href="#">Survey</a>
+                                  <a class="collapse-item" href="#">Pertanyaan</a>
                              </div>
                         </div>
-                   </li>
-
-                   <!-- Nav Item - Hasil Collapse Menu -->
-                   <li class="nav-item active">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                             <i class="fas fa-fw fa-folder"></i>
-                             <span>Hasil</span>
-                        </a>
-                        <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                             <div class="bg-white py-2 collapse-inner rounded">
-                                  <h6 class="collapse-header">Login Screens:</h6>
-                                  <a class="collapse-item" href="login.html">Login</a>
-                                  <a class="collapse-item" href="register.html">Register</a>
-                                  <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                                  <div class="collapse-divider"></div>
-                                  <h6 class="collapse-header">Other Pages:</h6>
-                                  <a class="collapse-item" href="404.html">404 Page</a>
-                                  <a class="collapse-item active" href="blank.html">Blank Page</a>
-                             </div>
-                        </div>
-                   </li>
-
-                   <!-- Nav Item - Kategori -->
-                   <li class="nav-item">
-                        <a class="nav-link" href="charts.html">
-                             <i class="fas fa-fw fa-chart-area"></i>
-                             <span>Kategori</span></a>
                    </li>
 
               <?php } else if ($user['role'] == 'admin') { ?>
@@ -88,26 +62,6 @@
                         </div>
                    </li>
 
-                   <!-- Nav Item - Hasil Collapse Menu -->
-                   <li class="nav-item active">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                             <i class="fas fa-fw fa-folder"></i>
-                             <span>Hasil</span>
-                        </a>
-                        <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                             <div class="bg-white py-2 collapse-inner rounded">
-                                  <h6 class="collapse-header">Login Screens:</h6>
-                                  <a class="collapse-item" href="login.html">Login</a>
-                                  <a class="collapse-item" href="register.html">Register</a>
-                                  <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                                  <div class="collapse-divider"></div>
-                                  <h6 class="collapse-header">Other Pages:</h6>
-                                  <a class="collapse-item" href="404.html">404 Page</a>
-                                  <a class="collapse-item active" href="blank.html">Blank Page</a>
-                             </div>
-                        </div>
-                   </li>
-
                    <!-- Nav Item - Kategori -->
                    <li class="nav-item">
                         <a class="nav-link" href="charts.html">
@@ -116,26 +70,21 @@
                    </li>
 
               <?php } else { ?>
-                   <!-- Nav Item - Hasil Collapse Menu -->
-                   <li class="nav-item <?= $title == "Hasil" ? "active" : ""; ?>">
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                             <i class="fas fa-fw fa-folder"></i>
-                             <span>Hasil</span>
-                        </a>
-                        <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                             <div class="bg-white py-2 collapse-inner rounded">
-                                  <h6 class="collapse-header">Login Screens:</h6>
-                                  <a class="collapse-item" href="login.html">Login</a>
-                                  <a class="collapse-item" href="register.html">Register</a>
-                                  <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                                  <div class="collapse-divider"></div>
-                                  <h6 class="collapse-header">Other Pages:</h6>
-                                  <a class="collapse-item" href="404.html">404 Page</a>
-                                  <a class="collapse-item active" href="blank.html">Blank Page</a>
-                             </div>
-                        </div>
+                   <!-- Nav Item - Hasil Keputusan -->
+                   <li class="nav-item">
+                        <a class="nav-link" href="charts.html">
+                             <i class="fas fa-fw fa-chart-area"></i>
+                             <span>Hasil Keputusan</span></a>
                    </li>
+
               <?php } ?>
+
+              <!-- Nav Item - Hasil Keputusan -->
+              <li class="nav-item">
+                   <a class="nav-link" href="charts.html">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Hasil Keputusan</span></a>
+              </li>
 
               <!-- Nav Item - Profile -->
               <li class="nav-item <?= $title == "My Profile" ? "active" : ""; ?>">
