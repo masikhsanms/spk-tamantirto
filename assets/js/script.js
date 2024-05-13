@@ -1,5 +1,5 @@
 $(document).ready(function () {
-        // hapus user
+    // hapus user
     $('.hapusUser').on('click', function () {
         const id = $(this).data('id');
         $('#idUser').val(id);
@@ -59,7 +59,7 @@ $(document).ready(function () {
         }
     }
 
-        //validate form update user
+    //validate form update user
     $("#errorName").hide();
     let errorUpdateName = true;
     $("#ubahNama").keyup(function () {
@@ -84,5 +84,59 @@ $(document).ready(function () {
             $("#btnUpdateUser").prop('disabled', false);
         }
     }
+
+    // hapus padukuhan
+    $('.btnHapusPadukuhan').on('click', function () {
+        const id = $(this).data('idpadukuhan');
+        $('#idPadukuhan').val(id);
+    });
+
+    //clear hapus padukuhan
+    $('.closeHapusPadukuhan').on('click', function () {
+        $('#idPadukuhan').val("");
+    });
+
+    //ubah padukuhan
+    $('.btnUbahPadukuhan').on('click', function () {
+        const id = $(this).data('id-padukuhan');
+        const name = $(this).data('nama-padukuhan');
+
+        $('#idUpdatePadukuhan').val(id);
+        $('#ubahNamaPadukuhan').val(name);
+    });
+
+     $('.closeUbahPadukuhan').on('click', function () {
+        $('#idUpdatePadukuhan').val('') == null;
+        $('#idNamaPadukuhan').val('') == null;
+     });
+
+    //validate form update padukuhan
+    $("#errorNamaPadukuhan").hide();
+    let errorUpdateNamapadukuhan = true;
+    $("#ubahNamaPadukuhan").keyup(function () {
+        validateUpdateNamapadukuhan();
+    });
+
+    function validateUpdateNamapadukuhan() {
+        let nameValue = $("#ubahNamaPadukuhan").val();
+        if (nameValue.length == "") {
+            $("#errorNamaPadukuhan").show();
+            $("#errorNamaPadukuhan").html("Nama Padukuhan tidak boleh kosong!");
+            $("#btnUpdatePadukuhan").prop("disabled", true);
+            errorUpdateNamapadukuhan = false;
+            return false;
+        } else {
+            $("#errorNamaPadukuhan").hide();
+            $("#btnUpdatePadukuhan").prop('disabled', false);
+        }
+    }
+
+    var errorMsg = $('#errorNamaPadukuhan').val();
+    if (errorMsg != null) {
+        $("#modalUbahPadukuhan").modal('show');
+    }
+
+
+
  });
 

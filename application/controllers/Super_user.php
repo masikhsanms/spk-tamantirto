@@ -10,12 +10,6 @@ class Super_user extends CI_Controller
      }
      public function index()
      {
-          //mengatasi error sesi habis
-          if ($this->session->userdata('email') == null) {
-               $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Maaf, Sesi anda sudah habis, silahkan login kembali!</div>');
-               redirect('auth');
-          }
-
           $data['title'] = 'Dashboard';
           $data['dashboard'] = 'active';
           $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();

@@ -13,6 +13,8 @@ function check_login()
                redirect('auth/blocked');
           } else if ($role == "user" && $url == 'admin') {
                redirect('auth/blocked');
+          } else if ($role == "user" && $url == 'manajemen_data') {
+               redirect('auth/blocked');
           } else if ($role == "admin" && $url == 'super_user') {
                redirect('auth/blocked');
           }

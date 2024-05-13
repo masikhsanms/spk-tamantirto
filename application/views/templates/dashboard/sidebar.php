@@ -1,12 +1,12 @@
          <!-- Sidebar -->
-         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+         <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
               <!-- Sidebar - Brand -->
               <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url($user['role']); ?>">
                    <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-signature"></i>
                    </div>
-                   <div class="sidebar-brand-text mx-3">Dash CI <sup>3</sup></div>
+                   <div class="sidebar-brand-text mx-3">TAMANTIRTO<sup>fm</sup></div>
               </a>
 
               <!-- Divider -->
@@ -29,13 +29,13 @@
                    <!-- Nav Item - Manajemen Data Collapse Menu -->
                    <li class="nav-item <?= $title == "Manajemen Data" ? "active" : ""; ?>">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                             <i class="fas fa-fw fa-wrench"></i>
+                             <i class="fas fa-fw fa-database"></i>
                              <span>Manajemen Data</span>
                         </a>
-                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div id="collapseUtilities" class="collapse <?= $title == "Manajemen Data" ? "show" : ""; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                              <div class="bg-white py-2 collapse-inner rounded">
                                   <h6 class="collapse-header">Data Master:</h6>
-                                  <a class="collapse-item" href="#">Padukuhan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "padukuhan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/padukuhan'); ?>">Padukuhan</a>
                                   <a class="collapse-item" href="#">Kategori</a>
                                   <a class="collapse-item" href="#">Indikator</a>
                                   <a class="collapse-item" href="#">Survey</a>
