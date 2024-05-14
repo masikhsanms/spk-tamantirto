@@ -136,7 +136,65 @@ $(document).ready(function () {
         $("#modalUbahPadukuhan").modal('show');
     }
 
+//ubah kategori
+$('.btnUbahKategori').on('click', function () {
+        const id = $(this).data('id-kategori');
+        const name = $(this).data('nama-kategori');
 
+        $('#idUpdateKategori').val(id);
+        $('#namaUpdateKategori').val(name);
+
+    $('#form-ubah-kategori').css("display", "block");
+    $('#namaUpdateKategori').focus();
+    $('#form-tambah-kategori').css("display", "none");
+    });
+
+    $('.closeUbahKategori').on('click', function () {
+        $('#idUpdateKategori').val('') == null;
+        $('#namaUpdateKategori').val('') == null;
+        $('#form-ubah-kategori').css("display", "none");
+        $('#form-tambah-kategori').css("display", "block");
+     });
+
+    //validate form update kategori
+    $("#errorNamaKategori").hide();
+    let errorUpdateNamaKategori = true;
+    $("#ubahNamaKategori").keyup(function () {
+        validateUpdateNamaKategori();
+    });
+
+    function validateUpdateNamaKategori() {
+        let nameValue = $("#ubahNamaKategori").val();
+        if (nameValue.length == "") {
+            $("#errorNamaKategori").show();
+            $("#errorNamaKategori").html("Nama Kategori tidak boleh kosong!");
+            $("#btnUpdateKategori").prop("disabled", true);
+            errorUpdateNamaKategori = false;
+            return false;
+        } else {
+            $("#errorNamaKategori").hide();
+            $("#btnUpdateKategori").prop('disabled', false);
+        }
+    }
+
+    if ($("#errorUbahKategori").val() != null) {
+        $("#form-ubah-kategori").css("display", "block");
+        $("#form-tambah-kategori").css("display", "none");
+    } else {
+        $("#form-tambah-kategori").css("display", "block");
+        $("#form-ubah-kategori").css("display", "none");
+    }
+
+    // hapus Kategori
+    $('.btnHapusKategori').on('click', function () {
+        const id = $(this).data('id-kategori');
+        $('#idKategori').val(id);
+    });
+
+    //clear hapus Kategori
+    $('.closeHapusKategori').on('click', function () {
+        $('#idKategori').val("");
+    });
 
  });
 

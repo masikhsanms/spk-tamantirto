@@ -1,5 +1,5 @@
          <!-- Sidebar -->
-         <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
               <!-- Sidebar - Brand -->
               <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url($user['role']); ?>">
@@ -36,10 +36,10 @@
                              <div class="bg-white py-2 collapse-inner rounded">
                                   <h6 class="collapse-header">Data Master:</h6>
                                   <a class="collapse-item <?= $this->uri->segment(2) == "padukuhan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/padukuhan'); ?>">Padukuhan</a>
-                                  <a class="collapse-item" href="#">Kategori</a>
-                                  <a class="collapse-item" href="#">Indikator</a>
-                                  <a class="collapse-item" href="#">Survey</a>
-                                  <a class="collapse-item" href="#">Pertanyaan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "kategori" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/kategori'); ?>">Kategori</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "indikator" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/indikator'); ?>">Indikator</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "survey" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/survey'); ?>">Survey</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "pertanyaan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/pertanyaan'); ?>">Pertanyaan</a>
                              </div>
                         </div>
                    </li>
