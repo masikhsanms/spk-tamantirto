@@ -253,4 +253,172 @@ class Manajemen_data extends CI_Controller
                redirect('manajemen_data/indikator');
           }
      }
+
+     public function survey()
+     {
+          $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+          $data['title'] = 'Manajemen Data';
+          $data['sub_title'] = 'survey';
+          $data['data_survey'] = $this->db->get('survey')->result_array();
+
+          $this->load->view('templates/dashboard/dashboard_header', $data);
+          $this->load->view('templates/dashboard/sidebar', $data);
+          $this->load->view('templates/dashboard/topbar', $data);
+          $this->load->view('manajemen_data/survey', $data);
+          $this->load->view('templates/dashboard/dashboard_footer');
+     }
+
+     public function tambah_survey()
+     {
+          $this->form_validation->set_rules('nama_survey', 'survey', 'required|trim|is_unique[survey.nama_survey]', [
+               'required' => 'Ups, Nama survey harus terisi!',
+               'is_unique' => 'Maaf, survey sudah ada!'
+          ]);
+
+          if ($this->form_validation->run() == false) {
+               $data['title'] = 'Manajemen Data';
+               $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+               $data['data_survey'] = $this->db->get('survey')->result_array();
+
+               $this->load->view('templates/dashboard/dashboard_header', $data);
+               $this->load->view('templates/dashboard/sidebar', $data);
+               $this->load->view('templates/dashboard/topbar', $data);
+               $this->load->view('manajemen_data/survey', $data);
+               $this->load->view('templates/dashboard/dashboard_footer');
+          } else {
+               $data = [
+                    'nama_survey' => htmlspecialchars($this->input->post('nama_survey', true)),
+               ];
+
+               $this->db->insert('survey', $data);
+               $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Padukuan berhasil ditambahkan!</div>');
+               redirect('manajemen_data/survey');
+          }
+     }
+
+     public function hapus_survey()
+     {
+          $id_user = $this->input->post('idsurvey', true);
+          $this->db->where('id_survey', $id_user);
+          $this->db->delete('survey');
+
+          $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">survey berhasil dihapus!</div>');
+          redirect('manajemen_data/survey');
+     }
+
+     public function update_survey()
+     {
+          $this->form_validation->set_rules('ubah_nama_survey', 'survey', 'required|trim|is_unique[survey.nama_survey]', [
+               'required' => 'Ups, Nama survey harus terisi!',
+               'is_unique' => 'Maaf, survey sudah ada!'
+          ]);
+
+          if ($this->form_validation->run() == false) {
+
+               $data['title'] = 'Manajemen Data';
+               $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+               $data['data_survey'] = $this->db->get('survey')->result_array();
+
+               $this->load->view('templates/dashboard/dashboard_header', $data);
+               $this->load->view('templates/dashboard/sidebar', $data);
+               $this->load->view('templates/dashboard/topbar', $data);
+               $this->load->view('manajemen_data/survey', $data);
+               $this->load->view('templates/dashboard/dashboard_footer');
+          } else {
+               $id_survey = $this->input->post('id_survey', true);
+               $data = [
+                    'nama_survey' => $this->input->post('ubah_nama_survey', true),
+               ];
+
+               $this->db->where('id_survey', $id_survey);
+               $this->db->update('survey', $data);
+
+               $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Survey berhasil diupdate!</div>');
+               redirect('manajemen_data/survey');
+          }
+     }
+
+     public function pertanyaan()
+     {
+          $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+          $data['title'] = 'Manajemen Data';
+          $data['sub_title'] = 'pertanyaan';
+          $data['data_pertanyaan'] = $this->db->get('pertanyaan')->result_array();
+
+          $this->load->view('templates/dashboard/dashboard_header', $data);
+          $this->load->view('templates/dashboard/sidebar', $data);
+          $this->load->view('templates/dashboard/topbar', $data);
+          $this->load->view('manajemen_data/pertanyaan', $data);
+          $this->load->view('templates/dashboard/dashboard_footer');
+     }
+
+     public function tambah_pertanyaan()
+     {
+          $this->form_validation->set_rules('nama_pertanyaan', 'pertanyaan', 'required|trim|is_unique[pertanyaan.nama_pertanyaan]', [
+               'required' => 'Ups, Nama pertanyaan harus terisi!',
+               'is_unique' => 'Maaf, pertanyaan sudah ada!'
+          ]);
+
+          if ($this->form_validation->run() == false) {
+               $data['title'] = 'Manajemen Data';
+               $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+               $data['data_pertanyaan'] = $this->db->get('pertanyaan')->result_array();
+
+               $this->load->view('templates/dashboard/dashboard_header', $data);
+               $this->load->view('templates/dashboard/sidebar', $data);
+               $this->load->view('templates/dashboard/topbar', $data);
+               $this->load->view('manajemen_data/pertanyaan', $data);
+               $this->load->view('templates/dashboard/dashboard_footer');
+          } else {
+               $data = [
+                    'nama_pertanyaan' => htmlspecialchars($this->input->post('nama_pertanyaan', true)),
+               ];
+
+               $this->db->insert('pertanyaan', $data);
+               $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Padukuan berhasil ditambahkan!</div>');
+               redirect('manajemen_data/pertanyaan');
+          }
+     }
+
+     public function hapus_pertanyaan()
+     {
+          $id_user = $this->input->post('idpertanyaan', true);
+          $this->db->where('id_pertanyaan', $id_user);
+          $this->db->delete('pertanyaan');
+
+          $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">pertanyaan berhasil dihapus!</div>');
+          redirect('manajemen_data/pertanyaan');
+     }
+
+     public function update_pertanyaan()
+     {
+          $this->form_validation->set_rules('ubah_nama_pertanyaan', 'pertanyaan', 'required|trim|is_unique[pertanyaan.nama_pertanyaan]', [
+               'required' => 'Ups, Nama pertanyaan harus terisi!',
+               'is_unique' => 'Maaf, pertanyaan sudah ada!'
+          ]);
+
+          if ($this->form_validation->run() == false) {
+
+               $data['title'] = 'Manajemen Data';
+               $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+               $data['data_pertanyaan'] = $this->db->get('pertanyaan')->result_array();
+
+               $this->load->view('templates/dashboard/dashboard_header', $data);
+               $this->load->view('templates/dashboard/sidebar', $data);
+               $this->load->view('templates/dashboard/topbar', $data);
+               $this->load->view('manajemen_data/pertanyaan', $data);
+               $this->load->view('templates/dashboard/dashboard_footer');
+          } else {
+               $id_pertanyaan = $this->input->post('id_pertanyaan', true);
+               $data = [
+                    'nama_pertanyaan' => $this->input->post('ubah_nama_pertanyaan', true),
+               ];
+
+               $this->db->where('id_pertanyaan', $id_pertanyaan);
+               $this->db->update('pertanyaan', $data);
+
+               $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">pertanyaan berhasil diupdate!</div>');
+               redirect('manajemen_data/pertanyaan');
+          }
+     }
 }

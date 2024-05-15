@@ -38,8 +38,8 @@
                                   <a class="collapse-item <?= $this->uri->segment(2) == "padukuhan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/padukuhan'); ?>">Padukuhan</a>
                                   <a class="collapse-item <?= $this->uri->segment(2) == "kategori" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/kategori'); ?>">Kategori</a>
                                   <a class="collapse-item <?= $this->uri->segment(2) == "indikator" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/indikator'); ?>">Indikator</a>
-                                  <a class="collapse-item <?= $this->uri->segment(2) == "survey" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/survey'); ?>">Survey</a>
                                   <a class="collapse-item <?= $this->uri->segment(2) == "pertanyaan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/pertanyaan'); ?>">Pertanyaan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "survey" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/survey'); ?>">Survey</a>
                              </div>
                         </div>
                    </li>

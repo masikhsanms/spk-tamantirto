@@ -196,5 +196,65 @@ $('.btnUbahKategori').on('click', function () {
         $('#idKategori').val("");
     });
 
+    //ubah indikator
+$('.btnUbahindikator').on('click', function () {
+        const id = $(this).data('id-indikator');
+        const name = $(this).data('nama-indikator');
+
+        $('#idUpdateindikator').val(id);
+        $('#namaUpdateindikator').val(name);
+
+    $('#form-ubah-indikator').css("display", "block");
+    $('#namaUpdateindikator').focus();
+    $('#form-tambah-indikator').css("display", "none");
+    });
+
+    $('.closeUbahindikator').on('click', function () {
+        $('#idUpdateindikator').val('') == null;
+        $('#namaUpdateindikator').val('') == null;
+        $('#form-ubah-indikator').css("display", "none");
+        $('#form-tambah-indikator').css("display", "block");
+     });
+
+    //validate form update indikator
+    $("#errorNamaindikator").hide();
+    let errorUpdateNamaindikator = true;
+    $("#ubahNamaindikator").keyup(function () {
+        validateUpdateNamaindikator();
+    });
+
+    function validateUpdateNamaindikator() {
+        let nameValue = $("#ubahNamaindikator").val();
+        if (nameValue.length == "") {
+            $("#errorNamaindikator").show();
+            $("#errorNamaindikator").html("Nama indikator tidak boleh kosong!");
+            $("#btnUpdateindikator").prop("disabled", true);
+            errorUpdateNamaindikator = false;
+            return false;
+        } else {
+            $("#errorNamaindikator").hide();
+            $("#btnUpdateindikator").prop('disabled', false);
+        }
+    }
+
+    if ($("#errorUbahindikator").val() != null) {
+        $("#form-ubah-indikator").css("display", "block");
+        $("#form-tambah-indikator").css("display", "none");
+    } else {
+        $("#form-tambah-indikator").css("display", "block");
+        $("#form-ubah-indikator").css("display", "none");
+    }
+
+    // hapus indikator
+    $('.btnHapusindikator').on('click', function () {
+        const id = $(this).data('id-indikator');
+        $('#idindikator').val(id);
+    });
+
+    //clear hapus indikator
+    $('.closeHapusindikator').on('click', function () {
+        $('#idindikator').val("");
+    });
+
  });
 
