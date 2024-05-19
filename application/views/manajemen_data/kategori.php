@@ -76,9 +76,8 @@
                                                            <td><?= $i++ ?></td>
                                                            <td><?= $dk['nama_kategori']; ?></td>
                                                            <td>
-                                                                <!-- <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahKategori" id="btnUbahKategori" data-toggle="modal" data-target="#modalUbahKategori" data-id-kategori="<?= $dk['id_kategori']; ?>" data-nama-kategori="<?= $dk['nama_kategori']; ?>" <i class="fas fa-trash"></i>&nbsp Ubah</a> -->
-                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahKategori" id="btnUbahKategori" data-toggle="modal" data-id-kategori="<?= $dk['id_kategori']; ?>" data-nama-kategori="<?= $dk['nama_kategori']; ?>" <i class="fas fa-trash"></i>&nbsp Ubah</a>
-                                                                <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusKategori" id="btnHapusKategori" data-toggle="modal" data-target="#modalHapusKategori" data-id-kategori="<?= $dk['id_kategori']; ?>" data-name="<?= $dk['nama_kategori']; ?>" <i class="fas fa-trash"></i>&nbsp Hapus</a>
+                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahKategori" id="btnUbahKategori" data-toggle="modal" data-id-kategori="<?= $dk['id_kategori']; ?>" data-nama-kategori="<?= $dk['nama_kategori']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
+                                                                <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusKategori" id="btnHapusKategori" data-toggle="modal" data-target="#modalHapusKategori" data-id-kategori="<?= $dk['id_kategori']; ?>" data-name="<?= $dk['nama_kategori']; ?>"><i class="fas fa-trash"> </i>&nbsp Hapus</a>
                                                            </td>
                                                       </tr>
                                                  <?php endforeach; ?>

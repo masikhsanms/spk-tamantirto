@@ -76,9 +76,8 @@
                                                            <td><?= $i++ ?></td>
                                                            <td><?= $dk['nama_indikator']; ?></td>
                                                            <td>
-                                                                <!-- <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahindikator" id="btnUbahindikator" data-toggle="modal" data-target="#modalUbahindikator" data-id-indikator="<?= $dk['id_indikator']; ?>" data-nama-indikator="<?= $dk['nama_indikator']; ?>" <i class="fas fa-trash"></i>&nbsp Ubah</a> -->
-                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahindikator" id="btnUbahindikator" data-toggle="modal" data-id-indikator="<?= $dk['id_indikator']; ?>" data-nama-indikator="<?= $dk['nama_indikator']; ?>" <i class="fas fa-trash"></i>&nbsp Ubah</a>
-                                                                <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusindikator" id="btnHapusindikator" data-toggle="modal" data-target="#modalHapusindikator" data-id-indikator="<?= $dk['id_indikator']; ?>" data-name="<?= $dk['nama_indikator']; ?>" <i class="fas fa-trash"></i>&nbsp Hapus</a>
+                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahindikator" id="btnUbahindikator" data-toggle="modal" data-id-indikator="<?= $dk['id_indikator']; ?>" data-nama-indikator="<?= $dk['nama_indikator']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
+                                                                <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusindikator" id="btnHapusindikator" data-toggle="modal" data-target="#modalHapusindikator" data-id-indikator="<?= $dk['id_indikator']; ?>" data-name="<?= $dk['nama_indikator']; ?>"> <i class="fas fa-trash"></i>&nbsp Hapus</a>
                                                            </td>
                                                       </tr>
                                                  <?php endforeach; ?>

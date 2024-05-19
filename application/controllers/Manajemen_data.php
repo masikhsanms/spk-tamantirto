@@ -343,7 +343,13 @@ class Manajemen_data extends CI_Controller
           $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
           $data['title'] = 'Manajemen Data';
           $data['sub_title'] = 'pertanyaan';
-          $data['data_pertanyaan'] = $this->db->get('pertanyaan')->result_array();
+          $data['kategori'] = $this->db->get('kategori')->result_array();
+          $data['padukuhan'] = $this->db->get('padukuhan')->result_array();
+          $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan')
+               ->from('pertanyaan')
+               ->join('kategori', 'kategori.id_kategori = pertanyaan.id_kategori')
+               ->join('padukuhan', 'padukuhan.id_padukuhan = pertanyaan.id_padukuhan')
+               ->get()->result_array();
 
           $this->load->view('templates/dashboard/dashboard_header', $data);
           $this->load->view('templates/dashboard/sidebar', $data);
@@ -354,15 +360,30 @@ class Manajemen_data extends CI_Controller
 
      public function tambah_pertanyaan()
      {
-          $this->form_validation->set_rules('nama_pertanyaan', 'pertanyaan', 'required|trim|is_unique[pertanyaan.nama_pertanyaan]', [
-               'required' => 'Ups, Nama pertanyaan harus terisi!',
-               'is_unique' => 'Maaf, pertanyaan sudah ada!'
+          $this->form_validation->set_rules('pertanyaan', 'pertanyaan', 'required|trim', [
+               'required' => 'Ups, Pertanyaan harus terisi!'
+          ]);
+          $this->form_validation->set_rules('kategori_pertanyaan', 'kategori_pertanyaan', 'required', [
+               'required' => 'Ups, Kategori pertanyaan harus terisi!',
+          ]);
+          $this->form_validation->set_rules('padukuhan_pertanyaan', 'padukuhan_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Padukuhan harus terisi!'
+          ]);
+          $this->form_validation->set_rules('skor_pertanyaan', 'skor_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Skor Pertanyaan harus terisi!',
           ]);
 
           if ($this->form_validation->run() == false) {
-               $data['title'] = 'Manajemen Data';
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-               $data['data_pertanyaan'] = $this->db->get('pertanyaan')->result_array();
+               $data['title'] = 'Manajemen Data';
+               $data['sub_title'] = 'pertanyaan';
+               $data['kategori'] = $this->db->get('kategori')->result_array();
+               $data['padukuhan'] = $this->db->get('padukuhan')->result_array();
+               $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan')
+                    ->from('pertanyaan')
+                    ->join('kategori', 'kategori.id_kategori = pertanyaan.id_kategori')
+                    ->join('padukuhan', 'padukuhan.id_padukuhan = pertanyaan.id_padukuhan')
+                    ->get()->result_array();
 
                $this->load->view('templates/dashboard/dashboard_header', $data);
                $this->load->view('templates/dashboard/sidebar', $data);
@@ -371,7 +392,11 @@ class Manajemen_data extends CI_Controller
                $this->load->view('templates/dashboard/dashboard_footer');
           } else {
                $data = [
-                    'nama_pertanyaan' => htmlspecialchars($this->input->post('nama_pertanyaan', true)),
+                    'id_pertanyaan' => null,
+                    'pertanyaan' => htmlspecialchars($this->input->post('pertanyaan', true)),
+                    'id_kategori' => htmlspecialchars($this->input->post('kategori_pertanyaan', true)),
+                    'id_padukuhan' => htmlspecialchars($this->input->post('padukuhan_pertanyaan', true)),
+                    'skor' => htmlspecialchars($this->input->post('skor_pertanyaan', true)),
                ];
 
                $this->db->insert('pertanyaan', $data);
@@ -382,8 +407,8 @@ class Manajemen_data extends CI_Controller
 
      public function hapus_pertanyaan()
      {
-          $id_user = $this->input->post('idpertanyaan', true);
-          $this->db->where('id_pertanyaan', $id_user);
+          $id_pertanyaan = $this->input->post('id_pertanyaan', true);
+          $this->db->where('id_pertanyaan', $id_pertanyaan);
           $this->db->delete('pertanyaan');
 
           $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">pertanyaan berhasil dihapus!</div>');
@@ -392,16 +417,30 @@ class Manajemen_data extends CI_Controller
 
      public function update_pertanyaan()
      {
-          $this->form_validation->set_rules('ubah_nama_pertanyaan', 'pertanyaan', 'required|trim|is_unique[pertanyaan.nama_pertanyaan]', [
-               'required' => 'Ups, Nama pertanyaan harus terisi!',
-               'is_unique' => 'Maaf, pertanyaan sudah ada!'
+          $this->form_validation->set_rules('update_pertanyaan', 'update_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Pertanyaan harus terisi!'
+          ]);
+          $this->form_validation->set_rules('update_kategori_pertanyaan', 'update_kategori_pertanyaan', 'required', [
+               'required' => 'Ups, Kategori pertanyaan harus terisi!',
+          ]);
+          $this->form_validation->set_rules('update_padukuhan_pertanyaan', 'update_padukuhan_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Padukuhan harus terisi!'
+          ]);
+          $this->form_validation->set_rules('update_skor_pertanyaan', 'update_skor_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Skor Pertanyaan harus terisi!',
           ]);
 
           if ($this->form_validation->run() == false) {
-
-               $data['title'] = 'Manajemen Data';
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-               $data['data_pertanyaan'] = $this->db->get('pertanyaan')->result_array();
+               $data['title'] = 'Manajemen Data';
+               $data['sub_title'] = 'pertanyaan';
+               $data['kategori'] = $this->db->get('kategori')->result_array();
+               $data['padukuhan'] = $this->db->get('padukuhan')->result_array();
+               $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan')
+                    ->from('pertanyaan')
+                    ->join('kategori', 'kategori.id_kategori = pertanyaan.id_kategori')
+                    ->join('padukuhan', 'padukuhan.id_padukuhan = pertanyaan.id_padukuhan')
+                    ->get()->result_array();
 
                $this->load->view('templates/dashboard/dashboard_header', $data);
                $this->load->view('templates/dashboard/sidebar', $data);
@@ -409,9 +448,13 @@ class Manajemen_data extends CI_Controller
                $this->load->view('manajemen_data/pertanyaan', $data);
                $this->load->view('templates/dashboard/dashboard_footer');
           } else {
-               $id_pertanyaan = $this->input->post('id_pertanyaan', true);
+               $id_pertanyaan = $this->input->post('update_id_pertanyaan', true);
                $data = [
-                    'nama_pertanyaan' => $this->input->post('ubah_nama_pertanyaan', true),
+                    'id_pertanyaan' => null,
+                    'pertanyaan' => htmlspecialchars($this->input->post('update_pertanyaan', true)),
+                    'id_kategori' => htmlspecialchars($this->input->post('update_kategori_pertanyaan', true)),
+                    'id_padukuhan' => htmlspecialchars($this->input->post('update_padukuhan_pertanyaan', true)),
+                    'skor' => htmlspecialchars($this->input->post('update_skor_pertanyaan', true)),
                ];
 
                $this->db->where('id_pertanyaan', $id_pertanyaan);

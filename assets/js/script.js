@@ -177,6 +177,7 @@ $('.btnUbahKategori').on('click', function () {
         }
     }
 
+    // error update kategori
     if ($("#errorUbahKategori").val() != null) {
         $("#form-ubah-kategori").css("display", "block");
         $("#form-tambah-kategori").css("display", "none");
@@ -255,6 +256,74 @@ $('.btnUbahindikator').on('click', function () {
     $('.closeHapusindikator').on('click', function () {
         $('#idindikator').val("");
     });
+
+    //hapus pertanyaan
+    $('.btnHapusPertanyaan').on('click', function () {
+        const id = $(this).data('id-pertanyaan');
+        $('#id_pertanyaan').val(id);
+    });
+
+    //clear hapus pertanyaan
+    $('.closeHapusPertanyaan').on('click', function () {
+        $('#id_pertanayaan').val("");
+    });
+
+ //ubah pertanyaan
+    $('.btnUbahPertanyaan').on('click', function () {
+        const id = $(this).data('id-pertanyaan');
+        const pertanyaan = $(this).data('pertanyaan');
+        const id_kategori = $(this).data('id-kategori');
+        const id_padukuhan = $(this).data('id-padukuhan');
+        const skor = $(this).data('skor');
+
+
+        $('#idUpdatePertanyaan').val(id);
+        $('#updatePertannyaan').val(pertanyaan);
+        $('#updateKategoriPertanyaan').val(id_kategori).change();
+        $('#updatePadukuhanPertanyaan').val(id_padukuhan).change();
+        $('#updateSkor').val(skor);
+
+        $('#form-ubah-pertanyaan').css("display", "block");
+        $('#updatePertannyaan').focus();
+        $('#form-tambah-pertanyaan').css("display", "none");
+    });
+
+    $('.closeUbahpertanyaan').on('click', function () {
+        $('#idUpdatepertanyaan').val('') == null;
+        $('#namaUpdatepertanyaan').val('') == null;
+        $('#form-ubah-pertanyaan').css("display", "none");
+        $('#form-tambah-pertanyaan').css("display", "block");
+     });
+
+    //validate form update pertanyaan
+    $("#errorNamapertanyaan").hide();
+    let errorUpdateNamapertanyaan = true;
+    $("#ubahNamapertanyaan").keyup(function () {
+        validateUpdateNamapertanyaan();
+    });
+
+    function validateUpdateNamapertanyaan() {
+        let nameValue = $("#ubahNamapertanyaan").val();
+        if (nameValue.length == "") {
+            $("#errorNamapertanyaan").show();
+            $("#errorNamapertanyaan").html("Nama pertanyaan tidak boleh kosong!");
+            $("#btnUpdatepertanyaan").prop("disabled", true);
+            errorUpdateNamapertanyaan = false;
+            return false;
+        } else {
+            $("#errorNamapertanyaan").hide();
+            $("#btnUpdatepertanyaan").prop('disabled', false);
+        }
+    }
+
+      //error update pertanyaan
+    if ($(".error_update_pertanyaan").val() != null) {
+        $("#form-ubah-pertanyaan").css("display", "block");
+        $("#form-tambah-pertanyaan").css("display", "none");
+    } else {
+        $("#form-tambah-pertanyaan").css("display", "block");
+        $("#form-ubah-pertanyaan").css("display", "none");
+    }
 
  });
 

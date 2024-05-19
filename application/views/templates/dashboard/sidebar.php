@@ -35,11 +35,11 @@
                         <div id="collapseUtilities" class="collapse <?= $title == "Manajemen Data" ? "show" : ""; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                              <div class="bg-white py-2 collapse-inner rounded">
                                   <h6 class="collapse-header">Data Master:</h6>
-                                  <a class="collapse-item <?= $this->uri->segment(2) == "padukuhan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/padukuhan'); ?>">Padukuhan</a>
-                                  <a class="collapse-item <?= $this->uri->segment(2) == "kategori" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/kategori'); ?>">Kategori</a>
-                                  <a class="collapse-item <?= $this->uri->segment(2) == "indikator" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/indikator'); ?>">Indikator</a>
-                                  <a class="collapse-item <?= $this->uri->segment(2) == "pertanyaan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/pertanyaan'); ?>">Pertanyaan</a>
-                                  <a class="collapse-item <?= $this->uri->segment(2) == "survey" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/survey'); ?>">Survey</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "padukuhan" ? "active" : ""; ?> <?= $this->uri->segment(2) == "tambah_padukuhan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/padukuhan'); ?>">Padukuhan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("kategori") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("tambah_kategori") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("update_kategori") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/kategori'); ?>">Kategori</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("indikator") ? "active" : ""; ?><?= $this->uri->segment(2) == ("tambah_indikator") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("update_indikator") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/indikator'); ?>">Indikator</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("pertanyaan") ? "active" : ""; ?><?= $this->uri->segment(2) == ("tambah_pertanyaan") ? "active" : ""; ?><?= $this->uri->segment(2) == ("update_pertanyaan") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/pertanyaan'); ?>">Pertanyaan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("survey") ? "active" : ""; ?><?= $this->uri->segment(2) == ("tambah_survey") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("update_survey") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/survey'); ?>">Survey</a>
                              </div>
                         </div>
                    </li>

@@ -50,8 +50,8 @@
                                                            <td><?= $i++ ?></td>
                                                            <td><?= $lp['nama_padukuhan']; ?></td>
                                                            <td>
-                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahPadukuhan" id="btnUbahPadukuhan" data-toggle="modal" data-target="#modalUbahPadukuhan" data-id-padukuhan="<?= $lp['id_padukuhan']; ?>" data-nama-padukuhan="<?= $lp['nama_padukuhan']; ?>" <i class="fas fa-trash"></i>&nbsp Ubah</a>
-                                                                <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusPadukuhan" id="btnHapusPadukuhan" data-toggle="modal" data-target="#modalHapusPadukuhan" data-idpadukuhan="<?= $lp['id_padukuhan']; ?>" data-name="<?= $lp['nama_padukuhan']; ?>" <i class="fas fa-trash"></i>&nbsp Hapus</a>
+                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahPadukuhan" id="btnUbahPadukuhan" data-toggle="modal" data-target="#modalUbahPadukuhan" data-id-padukuhan="<?= $lp['id_padukuhan']; ?>" data-nama-padukuhan="<?= $lp['nama_padukuhan']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
+                                                                <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusPadukuhan" id="btnHapusPadukuhan" data-toggle="modal" data-target="#modalHapusPadukuhan" data-idpadukuhan="<?= $lp['id_padukuhan']; ?>" data-name="<?= $lp['nama_padukuhan']; ?>"><i class="fas fa-trash"> </i>&nbsp Hapus</a>
                                                            </td>
                                                       </tr>
                                                  <?php endforeach; ?>
