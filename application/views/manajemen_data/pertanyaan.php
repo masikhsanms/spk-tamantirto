@@ -18,6 +18,27 @@
                                             <div class="col-auto">
                                                  <div class="form-group">
                                                       <div class="form-group">
+                                                           <label for="tanggal_pertanyaan">Tanggal Survey</label>
+                                                           <input type="date" class="form-control" name="tanggal_pertanyaan" id="tanggal_pertanyaan" value="<?= set_value("tanggal_pertanyaan"); ?>">
+                                                           <?= form_error('tanggal_pertanyaan', '<small class="text-danger pl-1">', '</small>'); ?>
+                                                      </div>
+                                                 </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                 <div class="form-group">
+                                                      <label for="surveyor_pertanyaan">Surveyor</label>
+                                                      <select class="form-control" id="surveyor_pertanyaan" name="surveyor_pertanyaan">
+                                                           <option value="">Pilih surveyor</option>
+                                                           <?php foreach ($surveyor as $s) : ?>
+                                                                <option value="<?= $s['id']; ?>" <?= set_select("surveyor_pertanyaan", $s['id']); ?>><?= $s['name']; ?></option>
+                                                           <?php endforeach; ?>
+                                                      </select>
+                                                      <?= form_error('surveyor_pertanyaan', '<small class="text-danger pl-1">', '</small>'); ?>
+                                                 </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                 <div class="form-group">
+                                                      <div class="form-group">
                                                            <label for="kategori_pertanyaan">Kategori</label>
                                                            <select class="form-control" id="kategori_pertanyaan" name="kategori_pertanyaan">
                                                                 <option value="">Pilih Kategori</option>
@@ -26,6 +47,20 @@
                                                                 <?php endforeach; ?>
                                                            </select>
                                                            <?= form_error('kategori_pertanyaan', '<small class="text-danger pl-1">', '</small>'); ?>
+                                                      </div>
+                                                 </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                 <div class="form-group">
+                                                      <div class="form-group">
+                                                           <label for="indikator_pertanyaan">Indikator</label>
+                                                           <select class="form-control" id="indikator_pertanyaan" name="indikator_pertanyaan">
+                                                                <option value="">Pilih Indikator</option>
+                                                                <?php foreach ($indikator as $i) : ?>
+                                                                     <option value="<?= $i['id_indikator']; ?>" <?= set_select("indikator_pertanyaan", $i['id_indikator']); ?>><?= $i['nama_indikator']; ?></option>
+                                                                <?php endforeach; ?>
+                                                           </select>
+                                                           <?= form_error('indikator_pertanyaan', '<small class="text-danger pl-1">', '</small>'); ?>
                                                       </div>
                                                  </div>
                                             </div>
@@ -79,6 +114,27 @@
                                        <div class="row">
                                             <div class="col-auto">
                                                  <div class="form-group">
+                                                      <div class="form-group">
+                                                           <label for="ubah_tanggal_pertanyaan">Tanggal Survey</label>
+                                                           <input type="date" class="form-control" name="ubah_tanggal_pertanyaan" id="ubah_tanggal_pertanyaan" value="<?= set_value("ubah_tanggal_pertanyaan"); ?>">
+                                                           <?= form_error('ubah_tanggal_pertanyaan', '<small class="text-danger pl-1">', '</small>'); ?>
+                                                      </div>
+                                                 </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                 <div class="form-group">
+                                                      <label for="ubah_surveyor_pertanyaan">Surveyor</label>
+                                                      <select class="form-control" id="ubah_surveyor_pertanyaan" name="ubah_surveyor_pertanyaan">
+                                                           <option value="">Pilih surveyor</option>
+                                                           <?php foreach ($surveyor as $s) : ?>
+                                                                <option value="<?= $s['id']; ?>" <?= set_select("ubah_surveyor_pertanyaan", $s['id']); ?>><?= $s['name']; ?></option>
+                                                           <?php endforeach; ?>
+                                                      </select>
+                                                      <?= form_error('ubah_surveyor_pertanyaan', '<small class="text-danger pl-1">', '</small>'); ?>
+                                                 </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                 <div class="form-group">
                                                       <input type="hidden" id="idUpdatePertanyaan" name="update_id_pertanyaan" value="">
                                                       <label for="kategori_pertanyaan">Kategori</label>
                                                       <select class="form-control" id="updateKategoriPertanyaan" name="update_kategori_pertanyaan">
@@ -88,6 +144,18 @@
                                                            <?php endforeach; ?>
                                                       </select>
                                                       <?= form_error('update_kategori_pertanyaan', '<small class="text-danger pl-1 error_update_pertanyaan" value="1">', '</small>'); ?>
+                                                 </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                 <div class="form-group">
+                                                      <label for="indikator_pertanyaan">Indikator</label>
+                                                      <select class="form-control" id="updateIndikatorPertanyaan" name="update_indikator_pertanyaan">
+                                                           <option value="">Pilih indikator</option>
+                                                           <?php foreach ($indikator as $i) : ?>
+                                                                <option value="<?= $i['id_indikator']; ?>" <?= set_select("update_indikator_pertanyaan", $i['id_indikator']); ?>><?= $i['nama_indikator']; ?></option>
+                                                           <?php endforeach; ?>
+                                                      </select>
+                                                      <?= form_error('update_indikator_pertanyaan', '<small class="text-danger pl-1 error_update_pertanyaan" value="1">', '</small>'); ?>
                                                  </div>
                                             </div>
                                             <div class="col-auto">
@@ -140,8 +208,11 @@
                                             <thead>
                                                  <tr>
                                                       <td>No</td>
+                                                      <td>Tanggal Survey</td>
+                                                      <td>Surveyor</td>
                                                       <td>Pertanyaan</td>
                                                       <td>Kategori</td>
+                                                      <td>Indikator</td>
                                                       <td>Padukuhan</td>
                                                       <td>Skor</td>
                                                       <td>Aksi</td>
@@ -152,12 +223,15 @@
                                                  <?php foreach ($data_pertanyaan as $dp) : ?>
                                                       <tr>
                                                            <td><?= $i++ ?></td>
+                                                           <td><?= date('d F Y', strtotime($dp['tanggal'])); ?></td>
+                                                           <td><?= $dp['surveyor']; ?></td>
                                                            <td><?= $dp['pertanyaan']; ?></td>
                                                            <td><?= $dp['kategori']; ?></td>
+                                                           <td><?= $dp['indikator']; ?></td>
                                                            <td><?= $dp['padukuhan']; ?></td>
                                                            <td><?= $dp['skor']; ?></td>
                                                            <td>
-                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahPertanyaan" id="btnUbahPertanyaan" data-toggle="modal" data-id-pertanyaan="<?= $dp['id_pertanyaan']; ?>" data-pertanyaan="<?= $dp['pertanyaan']; ?>" data-id-kategori="<?= $dp['id_kategori']; ?>" data-id-padukuhan="<?= $dp['id_padukuhan']; ?>" data-skor="<?= $dp['skor']; ?>"> <i class="fas fa-edit"></i>&nbsp Ubah</a>
+                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahPertanyaan" id="btnUbahPertanyaan" data-toggle="modal" data-id-pertanyaan="<?= $dp['id_pertanyaan']; ?>" data-tanggal-pertanyaan="<?= $dp['tanggal']; ?>" data-surveyor="<?= $dp['id_surveyor']; ?>" data-pertanyaan="<?= $dp['pertanyaan']; ?>" data-id-kategori="<?= $dp['id_kategori']; ?>" data-id-indikator="<?= $dp['id_indikator']; ?>" data-id-padukuhan="<?= $dp['id_padukuhan']; ?>" data-skor="<?= $dp['skor']; ?>"> <i class="fas fa-edit"></i>&nbsp Ubah</a>
                                                                 <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusPertanyaan" id="btnHapusPertanyaan" data-toggle="modal" data-target="#modalHapuspertanyaan" data-id-pertanyaan="<?= $dp['id_pertanyaan']; ?>"> <i class="fas fa-trash"></i>&nbsp Hapus</a>
                                                            </td>
                                                       </tr>

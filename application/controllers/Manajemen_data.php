@@ -343,12 +343,16 @@ class Manajemen_data extends CI_Controller
           $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
           $data['title'] = 'Manajemen Data';
           $data['sub_title'] = 'pertanyaan';
+          $data['surveyor'] = $this->db->get('user')->result_array();
           $data['kategori'] = $this->db->get('kategori')->result_array();
           $data['padukuhan'] = $this->db->get('padukuhan')->result_array();
-          $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan')
+          $data['indikator'] = $this->db->get('indikator')->result_array();
+          $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan, user.name as surveyor, pertanyaan.tanggal_survey as tanggal, user.id as id_surveyor, indikator.nama_indikator as indikator, pertanyaan.id_indikator as id_indikator')
                ->from('pertanyaan')
                ->join('kategori', 'kategori.id_kategori = pertanyaan.id_kategori')
                ->join('padukuhan', 'padukuhan.id_padukuhan = pertanyaan.id_padukuhan')
+               ->join('user', 'user.id = pertanyaan.id_surveyor')
+               ->join('indikator', 'pertanyaan.id_indikator = indikator.id_indikator')
                ->get()->result_array();
 
           $this->load->view('templates/dashboard/dashboard_header', $data);
@@ -360,11 +364,20 @@ class Manajemen_data extends CI_Controller
 
      public function tambah_pertanyaan()
      {
+          $this->form_validation->set_rules('tanggal_pertanyaan', 'tanggal_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Tanggal pertanyaan harus terisi!'
+          ]);
+          $this->form_validation->set_rules('surveyor_pertanyaan', 'surveyor_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Surveyor harus terisi!'
+          ]);
           $this->form_validation->set_rules('pertanyaan', 'pertanyaan', 'required|trim', [
                'required' => 'Ups, Pertanyaan harus terisi!'
           ]);
           $this->form_validation->set_rules('kategori_pertanyaan', 'kategori_pertanyaan', 'required', [
                'required' => 'Ups, Kategori pertanyaan harus terisi!',
+          ]);
+          $this->form_validation->set_rules('indikator_pertanyaan', 'indikator_pertanyaan', 'required', [
+               'required' => 'Ups, indikator pertanyaan harus terisi!',
           ]);
           $this->form_validation->set_rules('padukuhan_pertanyaan', 'padukuhan_pertanyaan', 'required|trim', [
                'required' => 'Ups, Padukuhan harus terisi!'
@@ -377,12 +390,16 @@ class Manajemen_data extends CI_Controller
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
                $data['title'] = 'Manajemen Data';
                $data['sub_title'] = 'pertanyaan';
+               $data['surveyor'] = $this->db->get('user')->result_array();
                $data['kategori'] = $this->db->get('kategori')->result_array();
+               $data['indikator'] = $this->db->get('indikator')->result_array();
                $data['padukuhan'] = $this->db->get('padukuhan')->result_array();
-               $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan')
+               $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan, user.name as surveyor, pertanyaan.tanggal_survey as tanggal, user.id as id_surveyor, indikator.nama_indikator as indikator, pertanyaan.id_indikator as id_indikator')
                     ->from('pertanyaan')
                     ->join('kategori', 'kategori.id_kategori = pertanyaan.id_kategori')
                     ->join('padukuhan', 'padukuhan.id_padukuhan = pertanyaan.id_padukuhan')
+                    ->join('user', 'user.id = pertanyaan.id_surveyor')
+                    ->join('indikator', 'pertanyaan.id_indikator = indikator.id_indikator')
                     ->get()->result_array();
 
                $this->load->view('templates/dashboard/dashboard_header', $data);
@@ -393,8 +410,11 @@ class Manajemen_data extends CI_Controller
           } else {
                $data = [
                     'id_pertanyaan' => null,
+                    'tanggal_survey' => htmlspecialchars($this->input->post('tanggal_pertanyaan', true)),
+                    'id_surveyor' => htmlspecialchars($this->input->post('surveyor_pertanyaan', true)),
                     'pertanyaan' => htmlspecialchars($this->input->post('pertanyaan', true)),
                     'id_kategori' => htmlspecialchars($this->input->post('kategori_pertanyaan', true)),
+                    'id_indikator' => htmlspecialchars($this->input->post('indikator_pertanyaan', true)),
                     'id_padukuhan' => htmlspecialchars($this->input->post('padukuhan_pertanyaan', true)),
                     'skor' => htmlspecialchars($this->input->post('skor_pertanyaan', true)),
                ];
@@ -417,11 +437,22 @@ class Manajemen_data extends CI_Controller
 
      public function update_pertanyaan()
      {
+          $this->form_validation->set_rules('ubah_tanggal_pertanyaan', 'ubah_tanggal_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Tanggal pertanyaan harus terisi!'
+          ]);
+
+          $this->form_validation->set_rules('ubah_surveyor_pertanyaan', 'ubah_surveyor_pertanyaan', 'required|trim', [
+               'required' => 'Ups, Surveyor harus terisi!'
+          ]);
+
           $this->form_validation->set_rules('update_pertanyaan', 'update_pertanyaan', 'required|trim', [
                'required' => 'Ups, Pertanyaan harus terisi!'
           ]);
           $this->form_validation->set_rules('update_kategori_pertanyaan', 'update_kategori_pertanyaan', 'required', [
                'required' => 'Ups, Kategori pertanyaan harus terisi!',
+          ]);
+          $this->form_validation->set_rules('update_indikator_pertanyaan', 'update_indikator_pertanyaan', 'required', [
+               'required' => 'Ups, indikator pertanyaan harus terisi!',
           ]);
           $this->form_validation->set_rules('update_padukuhan_pertanyaan', 'update_padukuhan_pertanyaan', 'required|trim', [
                'required' => 'Ups, Padukuhan harus terisi!'
@@ -434,14 +465,17 @@ class Manajemen_data extends CI_Controller
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
                $data['title'] = 'Manajemen Data';
                $data['sub_title'] = 'pertanyaan';
+               $data['surveyor'] = $this->db->get('user')->result_array();
                $data['kategori'] = $this->db->get('kategori')->result_array();
+               $data['indikator'] = $this->db->get('indikator')->result_array();
                $data['padukuhan'] = $this->db->get('padukuhan')->result_array();
-               $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan')
+               $data['data_pertanyaan'] = $this->db->select('pertanyaan.id_pertanyaan, pertanyaan.pertanyaan, pertanyaan.skor, kategori.nama_kategori  as kategori, padukuhan.nama_padukuhan as padukuhan, pertanyaan.id_kategori as id_kategori, pertanyaan.id_padukuhan as id_padukuhan, user.name as surveyor, pertanyaan.tanggal_survey as tanggal, user.id as id_surveyor, indikator.nama_indikator as indikator, pertanyaan.id_indikator as id_indikator')
                     ->from('pertanyaan')
                     ->join('kategori', 'kategori.id_kategori = pertanyaan.id_kategori')
                     ->join('padukuhan', 'padukuhan.id_padukuhan = pertanyaan.id_padukuhan')
+                    ->join('user', 'user.id = pertanyaan.id_surveyor')
+                    ->join('indikator', 'pertanyaan.id_indikator = indikator.id_indikator')
                     ->get()->result_array();
-
                $this->load->view('templates/dashboard/dashboard_header', $data);
                $this->load->view('templates/dashboard/sidebar', $data);
                $this->load->view('templates/dashboard/topbar', $data);
@@ -450,9 +484,12 @@ class Manajemen_data extends CI_Controller
           } else {
                $id_pertanyaan = $this->input->post('update_id_pertanyaan', true);
                $data = [
-                    'id_pertanyaan' => null,
+                    // 'id_pertanyaan' => null,
+                    'tanggal_survey' => htmlspecialchars($this->input->post('ubah_tanggal_pertanyaan', true)),
+                    'id_surveyor' => htmlspecialchars($this->input->post('ubah_surveyor_pertanyaan', true)),
                     'pertanyaan' => htmlspecialchars($this->input->post('update_pertanyaan', true)),
                     'id_kategori' => htmlspecialchars($this->input->post('update_kategori_pertanyaan', true)),
+                    'id_indikator' => htmlspecialchars($this->input->post('update_indikator_pertanyaan', true)),
                     'id_padukuhan' => htmlspecialchars($this->input->post('update_padukuhan_pertanyaan', true)),
                     'skor' => htmlspecialchars($this->input->post('update_skor_pertanyaan', true)),
                ];

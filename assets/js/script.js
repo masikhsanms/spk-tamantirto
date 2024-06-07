@@ -271,15 +271,21 @@ $('.btnUbahindikator').on('click', function () {
  //ubah pertanyaan
     $('.btnUbahPertanyaan').on('click', function () {
         const id = $(this).data('id-pertanyaan');
+        const tanggal = $(this).data('tanggal-pertanyaan');
+        const surveyor = $(this).data('surveyor');
         const pertanyaan = $(this).data('pertanyaan');
         const id_kategori = $(this).data('id-kategori');
+        const id_indikator = $(this).data('id-indikator');
         const id_padukuhan = $(this).data('id-padukuhan');
         const skor = $(this).data('skor');
 
 
         $('#idUpdatePertanyaan').val(id);
+        $('#ubah_tanggal_pertanyaan').val(tanggal);
+        $('#ubah_surveyor_pertanyaan').val(surveyor).change();
         $('#updatePertannyaan').val(pertanyaan);
         $('#updateKategoriPertanyaan').val(id_kategori).change();
+        $('#updateIndikatorPertanyaan').val(id_indikator).change();
         $('#updatePadukuhanPertanyaan').val(id_padukuhan).change();
         $('#updateSkor').val(skor);
 
