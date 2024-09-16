@@ -46,36 +46,26 @@
 
               <?php } else if ($user['role'] == 'admin') { ?>
                    <!-- Nav Item - Manajemen Data Collapse Menu -->
-                   <li class="nav-item">
+                   <li class="nav-item <?= $title == "Manajemen Data" ? "active" : ""; ?>">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                             <i class="fas fa-fw fa-wrench"></i>
+                             <i class="fas fa-fw fa-database"></i>
                              <span>Manajemen Data</span>
                         </a>
-                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div id="collapseUtilities" class="collapse <?= $title == "Manajemen Data" ? "show" : ""; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                              <div class="bg-white py-2 collapse-inner rounded">
-                                  <h6 class="collapse-header">Custom Utilities:</h6>
-                                  <a class="collapse-item" href="utilities-color.html">Colors</a>
-                                  <a class="collapse-item" href="utilities-border.html">Borders</a>
-                                  <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                                  <a class="collapse-item" href="utilities-other.html">Other</a>
+                                  <h6 class="collapse-header">Data Master:</h6>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == "padukuhan" ? "active" : ""; ?> <?= $this->uri->segment(2) == "tambah_padukuhan" ? "active" : ""; ?>" href="<?= base_url('manajemen_data/padukuhan'); ?>">Padukuhan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("kategori") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("tambah_kategori") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("update_kategori") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/kategori'); ?>">Kategori</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("indikator") ? "active" : ""; ?><?= $this->uri->segment(2) == ("tambah_indikator") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("update_indikator") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/indikator'); ?>">Indikator</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("pertanyaan") ? "active" : ""; ?><?= $this->uri->segment(2) == ("tambah_pertanyaan") ? "active" : ""; ?><?= $this->uri->segment(2) == ("update_pertanyaan") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/pertanyaan'); ?>">Pertanyaan</a>
+                                  <a class="collapse-item <?= $this->uri->segment(2) == ("survey") ? "active" : ""; ?><?= $this->uri->segment(2) == ("tambah_survey") ? "active" : ""; ?> <?= $this->uri->segment(2) == ("update_survey") ? "active" : ""; ?>" href="<?= base_url('manajemen_data/survey'); ?>">Survey</a>
                              </div>
                         </div>
                    </li>
 
-                   <!-- Nav Item - Kategori -->
-                   <li class="nav-item">
-                        <a class="nav-link" href="charts.html">
-                             <i class="fas fa-fw fa-chart-area"></i>
-                             <span>Kategori</span></a>
-                   </li>
-
               <?php } else { ?>
                    <!-- Nav Item - Hasil Keputusan -->
-                   <li class="nav-item">
-                        <a class="nav-link" href="charts.html">
-                             <i class="fas fa-fw fa-chart-area"></i>
-                             <span>Hasil Keputusan</span></a>
-                   </li>
+
 
               <?php } ?>
 
