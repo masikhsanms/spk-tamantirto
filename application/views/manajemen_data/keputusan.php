@@ -32,7 +32,7 @@
                                         <input type="number" value="0.8" class="form-control" id="sdm" name="sdm" step="any" min="0" max="1" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Potensi Kelembagaan (KL)	</label>
+                                        <lagit bel>Potensi Kelembagaan (KL)</label>
                                         <input type="number" value="0.7" class="form-control" id="kl" name="kl" step="any" min="0" max="1" required>
                                     </div>
                                     <div class="form-group">
