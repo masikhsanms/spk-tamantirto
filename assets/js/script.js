@@ -201,9 +201,12 @@ $('.btnUbahKategori').on('click', function () {
 $('.btnUbahindikator').on('click', function () {
         const id = $(this).data('id-indikator');
         const name = $(this).data('nama-indikator');
+        const key = $(this).data('key-indikator');
+        
 
         $('#idUpdateindikator').val(id);
         $('#namaUpdateindikator').val(name);
+        $('input[name="ubah_key_indikator"]').val(key);
 
     $('#form-ubah-indikator').css("display", "block");
     $('#namaUpdateindikator').focus();

@@ -21,6 +21,13 @@
                                                  <?= form_error('nama_indikator', '<small class="text-danger pl-1">', '</small>'); ?>
                                             </div>
                                        </div>
+                                       <div class="form-group">
+                                             <div class="col-auto mb-2">
+                                                  <label for="nama_indikator">Key Indikator</label>
+                                                  <input type="text" value="<?= set_value('key_indikator'); ?>" maxlength="3" class="form-control" name="key_indikator" placeholder="Isi dengan Kode misal : (SDM) inisial dari Sumber Daya Manusia">
+                                                  <?= form_error('key_indikator', '<small class="text-danger pl-1">', '</small>'); ?>
+                                             </div>
+                                       </div>
                                        <div class="modal-footer mt-3">
                                             <button class="col-auto ml-auto btn btn-primary btn-sm" id="btnAddindikator" type="submit"><i class="fas fa-save"></i>&nbsp Save</button>
                                        </div>
@@ -44,6 +51,13 @@
                                                  <?= form_error('ubah_nama_indikator', '<small class="text-danger pl-1" id="errorUbahindikator" value="1">', '</small>'); ?>
                                             </div>
                                        </div>
+                                       <div class="form-group">
+                                             <div class="col-auto mb-2">
+                                                  <label for="nama_indikator">Key Indikator</label>
+                                                  <input value="<?= set_value('ubah_key_indikator'); ?>" type="text" maxlength="3" class="form-control" name="ubah_key_indikator" placeholder="Isi dengan Kode misal : (SDM) inisial dari Sumber Daya Manusia">
+                                                  <?= form_error('ubah_key_indikator', '<small class="text-danger pl-1">', '</small>'); ?>
+                                             </div>
+                                       </div>
                                        <div class="modal-footer mt-3">
                                             <div class="nav justify-content-end">
                                                  <a class="col-auto ml-auto btn btn-danger btn-sm closeUbahindikator" id="btnCloseUpdateindikator"><i class="fas fa-times"></i>&nbsp Close</a>
@@ -66,6 +80,7 @@
                                                  <tr>
                                                       <td>No</td>
                                                       <td>Nama indikator</td>
+                                                      <td>Key Indikator</td>
                                                       <td>Aksi</td>
                                                  </tr>
                                             </thead>
@@ -75,8 +90,9 @@
                                                       <tr>
                                                            <td><?= $i++ ?></td>
                                                            <td><?= $dk['nama_indikator']; ?></td>
+                                                           <td><?= $dk['key_indikator']; ?></td>
                                                            <td>
-                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahindikator" id="btnUbahindikator" data-toggle="modal" data-id-indikator="<?= $dk['id_indikator']; ?>" data-nama-indikator="<?= $dk['nama_indikator']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
+                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahindikator" id="btnUbahindikator" data-toggle="modal" data-key-indikator="<?= $dk['key_indikator']; ?>" data-id-indikator="<?= $dk['id_indikator']; ?>" data-nama-indikator="<?= $dk['nama_indikator']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
                                                                 <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusindikator" id="btnHapusindikator" data-toggle="modal" data-target="#modalHapusindikator" data-id-indikator="<?= $dk['id_indikator']; ?>" data-name="<?= $dk['nama_indikator']; ?>"> <i class="fas fa-trash"></i>&nbsp Hapus</a>
                                                            </td>
                                                       </tr>

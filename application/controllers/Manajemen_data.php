@@ -191,6 +191,11 @@ class Manajemen_data extends CI_Controller
                'is_unique' => 'Maaf, indikator sudah ada!'
           ]);
 
+          $this->form_validation->set_rules('key_indikator', 'indikator', 'required|trim|htmlspecialchars|is_unique[indikator.key_indikator]', [
+               'required' => 'Ups, Key indikator harus terisi!',
+               'is_unique' => 'Maaf, Key indikator sudah ada!'
+          ]);
+
           if ($this->form_validation->run() == false) {
                $data['title'] = 'Manajemen Data';
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -204,6 +209,7 @@ class Manajemen_data extends CI_Controller
           } else {
                $data = [
                     'nama_indikator' => htmlspecialchars($this->input->post('nama_indikator', true)),
+                    'key_indikator' => $this->input->post('key_indikator', true),
                ];
 
                $this->db->insert('indikator', $data);
@@ -229,8 +235,14 @@ class Manajemen_data extends CI_Controller
                'is_unique' => 'Maaf, indikator sudah ada!'
           ]);
 
-          if ($this->form_validation->run() == false) {
+          $this->form_validation->set_rules('ubah_key_indikator', 'indikator', 'required|trim|htmlspecialchars|is_unique[indikator.key_indikator]', [
+               'required' => 'Ups, Key indikator harus terisi!',
+               'is_unique' => 'Maaf, Key indikator sudah ada!'
+          ]);
 
+          
+          if ($this->form_validation->run() == false) {
+               
                $data['title'] = 'Manajemen Data';
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
                $data['data_indikator'] = $this->db->get('indikator')->result_array();
@@ -242,8 +254,10 @@ class Manajemen_data extends CI_Controller
                $this->load->view('templates/dashboard/dashboard_footer');
           } else {
                $id_indikator = $this->input->post('id_indikator', true);
+          
                $data = [
                     'nama_indikator' => $this->input->post('ubah_nama_indikator', true),
+                    'key_indikator' => $this->input->post('ubah_key_indikator', true),
                ];
 
                $this->db->where('id_indikator', $id_indikator);
