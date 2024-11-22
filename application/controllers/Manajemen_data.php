@@ -196,6 +196,21 @@ class Manajemen_data extends CI_Controller
                'is_unique' => 'Maaf, Key indikator sudah ada!'
           ]);
 
+          $this->form_validation->set_rules('rendah', 'indikator', 'required|trim|htmlspecialchars|is_unique[indikator.rendah]', [
+               'required' => 'Ups, Rendah harus terisi!',
+               'is_unique' => 'Maaf, Rendah sudah ada!'
+          ]);
+
+          $this->form_validation->set_rules('sedang', 'indikator', 'required|trim|htmlspecialchars|is_unique[indikator.sedang]', [
+               'required' => 'Ups, Sedang harus terisi!',
+               'is_unique' => 'Maaf, Sedang sudah ada!'
+          ]);
+
+          $this->form_validation->set_rules('tinggi', 'indikator', 'required|trim|htmlspecialchars|is_unique[indikator.tinggi]', [
+               'required' => 'Ups, Tinggi harus terisi!',
+               'is_unique' => 'Maaf, Tinggi sudah ada!'
+          ]);
+
           if ($this->form_validation->run() == false) {
                $data['title'] = 'Manajemen Data';
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
@@ -210,6 +225,9 @@ class Manajemen_data extends CI_Controller
                $data = [
                     'nama_indikator' => htmlspecialchars($this->input->post('nama_indikator', true)),
                     'key_indikator' => $this->input->post('key_indikator', true),
+                    'rendah' => $this->input->post('rendah', true),
+                    'sedang' => $this->input->post('sedang', true),
+                    'tinggi' => $this->input->post('tinggi', true),
                ];
 
                $this->db->insert('indikator', $data);
@@ -230,14 +248,24 @@ class Manajemen_data extends CI_Controller
 
      public function update_indikator()
      {
-          $this->form_validation->set_rules('ubah_nama_indikator', 'indikator', 'required|trim|is_unique[indikator.nama_indikator]', [
+          $this->form_validation->set_rules('ubah_nama_indikator', 'indikator', 'required|trim', [
                'required' => 'Ups, Nama indikator harus terisi!',
-               'is_unique' => 'Maaf, indikator sudah ada!'
           ]);
 
-          $this->form_validation->set_rules('ubah_key_indikator', 'indikator', 'required|trim|htmlspecialchars|is_unique[indikator.key_indikator]', [
+          $this->form_validation->set_rules('ubah_key_indikator', 'indikator', 'required|trim|htmlspecialchars', [
                'required' => 'Ups, Key indikator harus terisi!',
-               'is_unique' => 'Maaf, Key indikator sudah ada!'
+          ]);
+
+          $this->form_validation->set_rules('ubah_rendah', 'indikator', 'required|trim|htmlspecialchars', [
+               'required' => 'Ups, Rendah harus terisi!',
+          ]);
+
+          $this->form_validation->set_rules('ubah_sedang', 'indikator', 'required|trim|htmlspecialchars', [
+               'required' => 'Ups, Sedang harus terisi!',
+          ]);
+
+          $this->form_validation->set_rules('ubah_tinggi', 'indikator', 'required|trim|htmlspecialchars', [
+               'required' => 'Ups, Tinggi harus terisi!',
           ]);
 
           
@@ -258,6 +286,9 @@ class Manajemen_data extends CI_Controller
                $data = [
                     'nama_indikator' => $this->input->post('ubah_nama_indikator', true),
                     'key_indikator' => $this->input->post('ubah_key_indikator', true),
+                    'rendah' => $this->input->post('ubah_rendah', true),
+                    'sedang' => $this->input->post('ubah_sedang', true),
+                    'tinggi' => $this->input->post('ubah_tinggi', true),
                ];
 
                $this->db->where('id_indikator', $id_indikator);
