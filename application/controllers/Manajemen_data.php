@@ -15,6 +15,7 @@ class Manajemen_data extends CI_Controller
           $data['title'] = 'Manajemen Data';
           $data['sub_title'] = 'padukuhan';
           $data['data_padukuhan'] = $this->db->get('padukuhan')->result_array();
+          $data['data_indikator'] = $this->db->get('indikator')->result_array();
 
           $this->load->view('templates/dashboard/dashboard_header', $data);
           $this->load->view('templates/dashboard/sidebar', $data);
@@ -30,10 +31,15 @@ class Manajemen_data extends CI_Controller
                'is_unique' => 'Maaf, Padukuhan sudah ada!'
           ]);
 
+          $this->form_validation->set_rules('indikator_values[]', 'Padukhan', 'required|trim', [
+               'required' => 'Ups, Indikator Values harus terisi!',
+          ]);
+
           if ($this->form_validation->run() == false) {
                $data['title'] = 'Manajemen Data';
                $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
                $data['data_padukuhan'] = $this->db->get('padukuhan')->result_array();
+               $data['data_indikator'] = $this->db->get('indikator')->result_array();
 
                $this->load->view('templates/dashboard/dashboard_header', $data);
                $this->load->view('templates/dashboard/sidebar', $data);
@@ -44,6 +50,14 @@ class Manajemen_data extends CI_Controller
                $data = [
                     'nama_padukuhan' => htmlspecialchars($this->input->post('nama_padukuhan', true)),
                ];
+
+               if( !empty($this->input->post('indikator_ids')) ){
+                    $data['indikator_ids'] = implode(',', $this->input->post('indikator_ids') );
+               }
+
+               if( !empty($this->input->post('indikator_values')) ){
+                    $data['indikator_values'] = implode(',', $this->input->post('indikator_values') );
+               }
 
                $this->db->insert('padukuhan', $data);
                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Padukuan berhasil ditambahkan!</div>');
