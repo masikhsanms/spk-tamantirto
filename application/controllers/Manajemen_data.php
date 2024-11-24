@@ -7,6 +7,18 @@ class Manajemen_data extends CI_Controller
      {
           parent::__construct();
           check_login();
+
+     }
+
+     protected function array_crips(){
+          $array_form = [
+               'rendah'=>'Rendah',
+               'sedang'=>'Sedang',
+               'tinggi'=>'Tinggi',
+               'sangat_tinggi'=>'Sangat Tinggi'
+          ]; 
+
+          return $array_form;
      }
 
      public function padukuhan()
@@ -77,9 +89,12 @@ class Manajemen_data extends CI_Controller
 
      public function update_padukuhan()
      {
-          $this->form_validation->set_rules('ubahNamaPadukuhan', 'Padukuhan', 'required|trim|is_unique[padukuhan.nama_padukuhan]', [
+          $this->form_validation->set_rules('ubahNamaPadukuhan', 'Padukuhan', 'required|trim', [
                'required' => 'Ups, Nama padukuhan harus terisi!',
-               'is_unique' => 'Maaf, Padukuhan sudah ada!'
+          ]);
+
+          $this->form_validation->set_rules('ubah_indikator_values[]', 'Padukuhan', 'required|trim', [
+               'required' => 'Ups, Indikator Values harus terisi!',
           ]);
 
           if ($this->form_validation->run() == false) {
@@ -91,6 +106,15 @@ class Manajemen_data extends CI_Controller
                $data = [
                     'nama_padukuhan' => $this->input->post('ubahNamaPadukuhan', true),
                ];
+
+               if( !empty($this->input->post('ubah_indikator_ids')) ){
+                    $data['indikator_ids'] = implode(',', $this->input->post('ubah_indikator_ids') );
+               }
+
+               if( !empty($this->input->post('ubah_indikator_values')) ){
+                    $data['indikator_values'] = implode(',', $this->input->post('ubah_indikator_values') );
+               }
+
 
                $this->db->where('id_padukuhan', $id_padukuhan);
                $this->db->update('padukuhan', $data);
@@ -561,6 +585,61 @@ class Manajemen_data extends CI_Controller
           }
      }
 
+     public function nilaiCrip()
+     {
+          $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+          $data['title'] = 'Manajemen Data';
+          $data['sub_title'] = 'nilaicrip';
+          $data['array_form'] = self::array_crips();
+          $data['data_nilaicrip'] = $this->db->get('nilaicrips')->row_array();
+
+          $this->load->view('templates/dashboard/dashboard_header', $data);
+          $this->load->view('templates/dashboard/sidebar', $data);
+          $this->load->view('templates/dashboard/topbar', $data);
+          $this->load->view('manajemen_data/nilaicrip', $data);
+          $this->load->view('templates/dashboard/dashboard_footer');
+     }
+
+     public function formNilaiCrip(){
+          $post = $this->input->post();
+          $rules = [];
+          foreach( self::array_crips() as $key => $row ){
+               $rules[] = array(
+                    'field' => $key,
+                    'label' => $row,
+                    'rules' => 'required',
+                    'message' => array(
+                             'required' => 'You must provide a %s.',
+                    ),
+               );
+          }
+
+          $this->form_validation->set_rules($rules);
+
+          if ($this->form_validation->run() == false) {
+               $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">'.validation_errors().'</div>');
+               redirect('manajemen_data/nilaiCrip');
+          }else{
+               if( isset( $post['id_nilaicrip'] ) ){
+                    $data = [
+                         'rendah'=>$post['rendah'],
+                         'sedang'=>$post['sedang'],
+                         'tinggi'=>$post['tinggi'],
+                         'sangat_tinggi'=>$post['sangat_tinggi'],
+                    ];
+
+                    $this->db->where('id_nilaicrip', $post['id_nilaicrip']);
+                    $this->db->update('nilaicrips', $data);
+
+               }else{
+                    $this->db->insert('nilaicrips', $this->security->xss_clean($post));
+               }
+               
+               $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Selamat! Nilai Crip Defuzikasi berhasil ditambahkan!</div>');
+               redirect('manajemen_data/nilaiCrip');
+          }
+     }
+
      public function keputusan(){
           $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
           $data['title'] = 'Hasil Keputusan';
@@ -583,4 +662,6 @@ class Manajemen_data extends CI_Controller
 
           echo json_encode(['hsl'=>$hasil]);
      }
+
+     
 }

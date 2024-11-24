@@ -67,15 +67,15 @@
                                                  </tr>
                                             </thead>
                                             <tbody>
-                                                 <?php $i = 1; ?>
+                                                 <?php $no=1; ?>
                                                  <?php foreach ($data_padukuhan as $lp) :
                                                        $indikator_value = [];
                                                        if( !empty($lp['indikator_ids']) ){
-                                                            $data_indikator = $this->db->select('nama_indikator')->where_in('id_indikator', explode( ',', $lp['indikator_ids']) )->get('indikator')->result_array();    
+                                                            $data_indikator_row = $this->db->select('nama_indikator')->where_in('id_indikator', explode( ',', $lp['indikator_ids']) )->get('indikator')->result_array();    
                                                             
                                                             $get_indikators = array_map(function ($item) {
                                                                  return $item['nama_indikator'];
-                                                            }, $data_indikator);
+                                                            }, $data_indikator_row);
                                                        
 
                                                             if(!empty($lp['indikator_values']) ){
@@ -88,11 +88,14 @@
 
                                                             }
                                                        }
-                                                       
-                                                       
+
+                                                       $data_list = '';
+
+                                                       if( !empty( $indikator_value ) )$data_list = implode(',' ,$indikator_value);
+                                                        
                                                   ?>
                                                       <tr>
-                                                           <td><?= $i++ ?></td>
+                                                           <td><?= $no++ ?></td>
                                                            <td><?= $lp['nama_padukuhan']; ?></td>
                                                            <td>
                                                                  <ul class="list-indikator">
@@ -102,7 +105,7 @@
                                                                  </ul>
                                                             </td>
                                                            <td>
-                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahPadukuhan" id="btnUbahPadukuhan" data-toggle="modal" data-target="#modalUbahPadukuhan" data-id-padukuhan="<?= $lp['id_padukuhan']; ?>" data-nama-padukuhan="<?= $lp['nama_padukuhan']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
+                                                                <a href="#" class="btn btn-warning btn-sm mb-1 btnUbahPadukuhan" id="btnUbahPadukuhan" data-list="<?= $data_list; ?>" data-toggle="modal" data-target="#modalUbahPadukuhan" data-id-padukuhan="<?= $lp['id_padukuhan']; ?>" data-nama-padukuhan="<?= $lp['nama_padukuhan']; ?>"><i class="fas fa-edit"> </i>&nbsp Ubah</a>
                                                                 <a href="#" class="btn btn-danger btn-sm mb-1 btnHapusPadukuhan" id="btnHapusPadukuhan" data-toggle="modal" data-target="#modalHapusPadukuhan" data-idpadukuhan="<?= $lp['id_padukuhan']; ?>" data-name="<?= $lp['nama_padukuhan']; ?>"><i class="fas fa-trash"> </i>&nbsp Hapus</a>
                                                            </td>
                                                       </tr>
@@ -155,6 +158,29 @@
                                                       <?= $this->session->flashdata('message-update-padukuhan'); ?>
                                                       <div id="errorNamaPadukuhan" class="invalid-feedback ml-1"></div>
                                                  </div>
+
+                                                 <!-- Indikator -->
+                                                  <div class="form-group">
+                                                       <div class="row">
+                                                            <?php 
+                                                            $no = 1;
+                                                            foreach( $data_indikator as $key => $val):
+                                                            ?>
+                                                            <div class="col-md-8 mb-2">
+                                                                 <label for="indikator">Indikator <?= $key+1; ?></label>
+                                                                 <input type="text" class="form-control"   disabled value="<?= $val['nama_indikator']; ?>">
+                                                                 <input type="hidden" class="form-control"  name="ubah_indikator_ids[]" value="<?= $val['id_indikator'] ?? ''; ?>">
+                                                                 <?= form_error('ubah_indikator_ids[]', '<small class="text-danger pl-1">', '</small>'); ?>
+
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                 <label>Value Indikator</label>
+                                                                 <input type="number" class="form-control" min="0"  name="ubah_indikator_values[]">
+                                                                 <?= form_error('ubah_indikator_values[]', '<small class="text-danger pl-1">', '</small>'); ?>
+                                                            </div>
+                                                            <?php endforeach; ?>
+                                                       </div>
+                                                  </div>
                                             </div>
                                             <div class="modal-footer">
                                                  <button type="button" class="btn btn-secondary closeUbahPadukuhan" data-dismiss="modal">Close</button>
