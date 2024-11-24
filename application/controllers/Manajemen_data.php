@@ -645,7 +645,8 @@ class Manajemen_data extends CI_Controller
           $data['title'] = 'Hasil Keputusan';
           $data['sub_title'] = 'keputusan';
           $data['data_indikator'] = $this->db->get('indikator')->result_array();
-
+          $data['perhitungan_fuzzy'] = prosesPerhitunganKeseluruhan();
+          
           $this->load->view('templates/dashboard/dashboard_header', $data);
           $this->load->view('templates/dashboard/sidebar', $data);
           $this->load->view('templates/dashboard/topbar', $data);

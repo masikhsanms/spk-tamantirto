@@ -104,3 +104,171 @@ function defuzzify_centroid($output_fuzzy, $domain) {
   $centroid = $first_moment / $total_area;
   return $domain[floor($centroid)]; // Mapping centroid ke domain output
 }
+
+
+/** 
+ * RUMUS FUZZY MAMDANI 
+ * REVISION
+ */
+
+function CI(){ return $ci =& get_instance(); }
+
+/**
+ * STEP 1
+ */
+function getPedukuhanFuzzy(){
+
+  $query_pedukuhan = CI()->db->where('indikator_ids !=','')->get('padukuhan')->result_array();
+
+  $result =[];
+
+  foreach( $query_pedukuhan as $key => $pedukuhan ){
+    $query_indikator = CI()->db->select('id_indikator,nama_indikator,key_indikator')->where_in('id_indikator',explode(',',$pedukuhan['indikator_ids']))->get('indikator')->result_array();
+    
+    $data_indikator = [];
+    foreach( $query_indikator as $indikator ){
+      $arr_value_padukuhan = explode(',', $pedukuhan['indikator_values']);
+      foreach(explode(',',$pedukuhan['indikator_ids']) as $i => $id_indikator_pedukuhan){
+          if( $indikator['id_indikator'] == $id_indikator_pedukuhan ){
+            $data_indikator = array_merge( $data_indikator,[
+              $indikator['key_indikator'] => $arr_value_padukuhan[$i],
+            ]);
+          }
+      }
+
+    }
+
+
+    $result = array_merge($result,[$pedukuhan['nama_padukuhan']=> $data_indikator]);
+  }
+  
+  return $result;
+
+}
+
+/**
+ * STEP 2
+ */
+function fuzzifikasi($nilai, $rendah, $sedang, $tinggi) {
+      $membership = [];
+      // Rendah
+      if ($nilai <= $rendah[1]) {
+          $membership['rendah'] = 1;
+      } elseif ($nilai > $rendah[1] && $nilai < $sedang[0]) {
+          $membership['rendah'] = ($sedang[0] - $nilai) / ($sedang[0] - $rendah[1]);
+      } else {
+          $membership['rendah'] = 0;
+      }
+  
+      // Sedang
+      if ($nilai > $sedang[0] && $nilai < $sedang[1]) {
+          $membership['sedang'] = ($nilai - $sedang[0]) / ($sedang[1] - $sedang[0]);
+      } elseif ($nilai >= $sedang[1] && $nilai <= $tinggi[0]) {
+          $membership['sedang'] = 1;
+      } elseif ($nilai > $tinggi[0] && $nilai < $tinggi[1]) {
+          $membership['sedang'] = ($tinggi[1] - $nilai) / ($tinggi[1] - $tinggi[0]);
+      } else {
+          $membership['sedang'] = 0;
+      }
+  
+      // Tinggi
+      if ($nilai >= $tinggi[0]) {
+          $membership['tinggi'] = 1;
+      } elseif ($nilai > $sedang[1] && $nilai < $tinggi[0]) {
+          $membership['tinggi'] = ($nilai - $sedang[1]) / ($tinggi[0] - $sedang[1]);
+      } else {
+          $membership['tinggi'] = 0;
+      }
+  
+      return $membership;
+}
+
+/**
+ * STEP 3
+ */
+function inferensi(array $calculatefuzzi) {
+  $rules = [
+    'sangat_tinggi' => min($calculatefuzzi['tinggi'], $calculatefuzzi['tinggi'], $calculatefuzzi['tinggi']),
+    'tinggi' => min($calculatefuzzi['sedang'], $calculatefuzzi['tinggi'], $calculatefuzzi['sedang']),
+    'sedang' => min($calculatefuzzi['rendah'], $calculatefuzzi['sedang'], $calculatefuzzi['tinggi']),
+    'rendah' => min($calculatefuzzi['rendah'], $calculatefuzzi['rendah'], $calculatefuzzi['rendah'])
+  ];
+
+  return $rules;
+}
+
+/**
+ * STEP 4
+ */
+// Defuzzifikasi menggunakan metode Centroid
+function defuzzifikasi($inferensi) {
+    // Definisi nilai crisp
+    $crisp = getArrayCrip();
+    
+    $numerator = 0;
+    $denominator = 0;
+
+    foreach ($inferensi as $key => $value) {
+        $numerator += $value * $crisp[$key];
+        $denominator += $value;
+    }
+
+    return ($denominator == 0) ? 0 : $numerator / $denominator;
+}
+
+function prosesPerhitunganKeseluruhan(){
+  // Proses untuk setiap kelurahan
+  $data_potensi = [];
+  foreach (getPedukuhanFuzzy() as $nama => $nilai) {
+      $indikators=[];
+      foreach( $nilai as $i => $item_nilai ){
+        $query_indikator = CI()->db->where('key_indikator',$i)->get('indikator')->row_array();
+          $rendah = explode('-',$query_indikator['rendah']);
+          $sedang = explode('-',$query_indikator['sedang']);
+          $tinggi = explode('-',$query_indikator['tinggi']);
+
+          $indikators[] = $query_indikator['nama_indikator'];
+          $fuzzy = fuzzifikasi($item_nilai, $rendah, $sedang, $tinggi);
+
+          // Inferensi
+          $hasil_inferensi = inferensi($fuzzy);
+
+          // Defuzzifikasi
+          $potensi = defuzzifikasi($hasil_inferensi);
+
+        }
+        $round_potensi = round($potensi,2);
+
+        $data_potensi[]= [
+          'pedukuhan'=>$nama,
+          'potensi_fuzzy'=>$round_potensi,
+          'potensi_text' => jenisPotensiPedukuhan( $round_potensi ),
+          'indikator' => $indikators,
+        ];
+  }
+
+  return $data_potensi;
+}
+
+function jenisPotensiPedukuhan(int $round_potensi){
+  $query_crips = getArrayCrip();
+  if( $round_potensi <= (int) $query_crips['rendah'] ){
+    $text = 'Rendah';
+  }else if( (int) $query_crips['rendah'] < $round_potensi && $round_potensi <= (int) $query_crips['sedang'] ){
+    $text = 'Sedang';
+  }else if( (int) $query_crips['sedang'] < $round_potensi && $round_potensi <= (int) $query_crips['tinggi'] ){
+    $text = 'Tinggi';
+  } else if( $query_crips['tinggi'] < $round_potensi && $round_potensi <= (int) $query_crips['sangat_tinggi'] ){
+    $text = 'Sangat Tinggi';
+  } 
+
+  return $text;
+}
+
+function getArrayCrip(){
+  $crisp = CI()->db->get('nilaicrips')->row_array();
+    
+  unset($crisp['id_nilaicrip']);
+
+  return $crisp;
+}
